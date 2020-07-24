@@ -71,7 +71,7 @@ class MITPerson(Person):
         return self.idNum < other.idNum
 
     def speak(self, utterance):
-        return (self.getLastName() + ' says: ' + utterance)
+        return (self.name + ' says: ' + utterance)
 
 m3 = MITPerson('Mark Zuckerberg')
 Person.setBirthday(m3,5,14,84)
@@ -99,3 +99,64 @@ p3 = MITPerson('John')
 p4 = Person('John')
 
 p1 < p2
+
+
+class Student(MITPerson):
+    pass
+
+
+
+class UG(Student):
+    def __init__(self, name, classYear):
+        MITPerson.__init__(self, name)
+        self.year = classYear
+
+    def getClass(self):
+        return self.year
+
+    def speak(self, utterance):
+        return MITPerson.speak(self, 'Dude, ' + utterance)
+
+
+
+class Grad(Student):
+    pass
+
+
+
+class TransferStudent(Student):
+    pass
+
+
+def isStudent(obj):
+    return isinstance(obj, Student)
+
+
+s1 = UG('Matt Damon', 2017)
+s2 = UG('Ben Affleck', 2017)
+s3 = UG('Lin Manuel Miranda', 2018)
+s4 = Grad('Leonardo de Caprio')
+
+print(s1)
+print(s1.getClass())
+print(s1.speak('where is the quiz?'))
+print(s2.speak('I have no clue!'))
+
+
+class Professor(MITPerson):
+    def __init__(self, name, department):
+        MITPerson.__init__(self, name)
+        self.department = department
+
+    def speak(self, utterance):
+        new = 'In course {} we say '.format(self.department)
+        return MITPerson.speak(self, new + utterance)
+
+    def lecture(self, topic):
+        return self.speak('it is obvious that {}'.format(topic))
+
+
+
+faculty = Professor('Doctor Arrogant', 'six')
+print(faculty.speak('hope it works'))
+print(faculty.lecture('I really hope it works!'))
